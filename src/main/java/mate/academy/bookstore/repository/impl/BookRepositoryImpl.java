@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import mate.academy.bookstore.exception.DataProcessingException;
 import mate.academy.bookstore.model.Book;
 import mate.academy.bookstore.repository.BookRepository;
 import org.springframework.stereotype.Repository;
@@ -29,7 +30,7 @@ public class BookRepositoryImpl implements BookRepository {
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can not persist Book entity", e);
+            throw new DataProcessingException("Can not persist Book entity", e);
         } finally {
             if (entityManager != null) {
                 entityManager.close();
@@ -39,13 +40,12 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public List<Book> findAll() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             return entityManager
                     .createQuery("FROM Book", Book.class)
                     .getResultList();
-        } finally {
-            entityManager.close();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can not get list of Books form DB", e);
         }
     }
 }
