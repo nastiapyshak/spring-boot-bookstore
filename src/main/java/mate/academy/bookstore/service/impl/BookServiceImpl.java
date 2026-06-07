@@ -34,7 +34,7 @@ public class BookServiceImpl implements BookService {
     public BookDto findById(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("Can not find entity with id: " + id));
+                        new EntityNotFoundException("Can not find book with id: " + id));
         return bookMapper.toDto(book);
     }
 
