@@ -38,9 +38,8 @@ public class Book {
 
     private String description;
 
-    @Column(name = "cover_image")
     private String coverImage;
 
-    @Column(name = "is_deleted", nullable = false, columnDefinition = "TINYINT(1)")
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
     private boolean isDeleted = false;
 }
