@@ -8,6 +8,7 @@ import mate.academy.bookstore.mapper.UserMapper;
 import mate.academy.bookstore.model.User;
 import mate.academy.bookstore.repository.UserRepository;
 import mate.academy.bookstore.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponseDto register(UserRegistrationRequestDto requestDto)
@@ -24,6 +26,8 @@ public class UserServiceImpl implements UserService {
                     + requestDto.email() + " already exists");
         }
         User user = userMapper.toModel(requestDto);
+        user.setPassword(passwordEncoder.encode(requestDto.password()));
+
         User saved = userRepository.save(user);
         return userMapper.toUserResponseDto(saved);
     }

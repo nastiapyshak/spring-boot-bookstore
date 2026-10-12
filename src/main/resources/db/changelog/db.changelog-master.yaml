@@ -6,4 +6,13 @@ databaseChangeLog:
       file: db/changelog/changes/02-create-users-table.yaml
 
   - include:
-      file: db/changelog/changes/02-create-roles-table.yaml
+      file: db/changelog/changes/03-create-roles-table.yaml
+
+  - include:
+      file: db/changelog/changes/04-create-users-roles-table.yaml
+
+  - include:
+      file: db/changelog/changes/05-assign-roles-to-existing-users.yaml
+
+  - include:
+      file: db/changelog/changes/06-update-users-table-with-hashed-passwords.yaml
