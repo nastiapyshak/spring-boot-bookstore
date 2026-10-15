@@ -57,6 +57,7 @@ public class BookController {
             summary = "Get all books",
             description = "Returns a paginated list of all books"
     )
+    @PreAuthorize("hasRole('USER')")
     @GetMapping
     public Page<BookDto> getAll(Pageable pageable) {
         return bookService.findAll(pageable);
@@ -66,6 +67,7 @@ public class BookController {
             summary = "Get a book by ID",
             description = "Returns a book with the specified ID"
     )
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     public BookDto getBookById(@PathVariable Long id) {
         return bookService.findById(id);
