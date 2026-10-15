@@ -8,5 +8,6 @@ public class SpringBootBookstoreApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SpringBootBookstoreApplication.class, args);
+
     }
 }
