@@ -4,6 +4,7 @@ import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import mate.academy.bookstore.dto.UserRegistrationRequestDto;
 import mate.academy.bookstore.dto.UserResponseDto;
+import mate.academy.bookstore.exception.EntityNotFoundException;
 import mate.academy.bookstore.exception.RegistrationException;
 import mate.academy.bookstore.mapper.UserMapper;
 import mate.academy.bookstore.model.Role;
@@ -35,7 +36,8 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.toModel(requestDto);
         user.setPassword(passwordEncoder.encode(requestDto.password()));
         Role userRole = roleRepository.findRoleByName(RoleName.USER)
-                .orElseThrow(() -> new IllegalStateException("USER role not found"));
+                .orElseThrow(() -> new EntityNotFoundException(RoleName.USER.name()
+                        + " role not found"));
         user.setRoles(Set.of(userRole));
 
         User saved = userRepository.save(user);
