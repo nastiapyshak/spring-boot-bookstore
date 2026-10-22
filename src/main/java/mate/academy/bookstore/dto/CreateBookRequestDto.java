@@ -4,6 +4,7 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.List;
 
 public record CreateBookRequestDto(
         @NotBlank
@@ -21,6 +22,8 @@ public record CreateBookRequestDto(
 
         String description,
 
-        String coverImage
+        String coverImage,
+
+        List<Long> categoryIds
 ) {
 }
