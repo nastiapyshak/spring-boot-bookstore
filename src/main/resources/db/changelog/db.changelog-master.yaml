@@ -16,3 +16,9 @@ databaseChangeLog:
 
   - include:
       file: db/changelog/changes/06-update-users-table-with-hashed-passwords.yaml
+
+  - include:
+      file: db/changelog/changes/07-create-categories-table.yaml
+
+  - include:
+      file: db/changelog/changes/08-create-book-category-table.yaml
