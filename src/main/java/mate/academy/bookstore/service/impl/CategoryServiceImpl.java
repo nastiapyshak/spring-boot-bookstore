@@ -65,9 +65,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Page<BookDtoWithoutCategoryIds> getBooksByCategoryId(
             Long id, Pageable pageable) {
-        categoryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Can not find Category with id: " + id));
         return bookRepository.findAllByCategories_Id(id, pageable)
                 .map(bookMapper::toDtoWithoutCategories);
     }
