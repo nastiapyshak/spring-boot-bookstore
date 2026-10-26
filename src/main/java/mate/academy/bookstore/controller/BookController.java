@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mate.academy.bookstore.dto.BookDto;
-import mate.academy.bookstore.dto.BookDtoWithoutCategoryIds;
 import mate.academy.bookstore.dto.CreateBookRequestDto;
 import mate.academy.bookstore.service.BookService;
 import org.springframework.data.domain.Page;
@@ -70,7 +69,7 @@ public class BookController {
     )
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
-    public BookDtoWithoutCategoryIds getBookById(@PathVariable Long id) {
+    public BookDto getBookById(@PathVariable Long id) {
         return bookService.findById(id);
     }
 

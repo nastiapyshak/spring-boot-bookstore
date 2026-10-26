@@ -1,8 +1,10 @@
 package mate.academy.bookstore.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import mate.academy.bookstore.dto.BookDtoWithoutCategoryIds;
 import mate.academy.bookstore.dto.CategoryDto;
+import mate.academy.bookstore.dto.CategoryRequestDto;
 import mate.academy.bookstore.exception.EntityNotFoundException;
 import mate.academy.bookstore.mapper.BookMapper;
 import mate.academy.bookstore.mapper.CategoryMapper;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
@@ -36,13 +39,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto save(CategoryDto categoryDto) {
+    public CategoryDto save(CategoryRequestDto categoryDto) {
         Category category = categoryRepository.save(categoryMapper.toEntity(categoryDto));
         return categoryMapper.toDto(category);
     }
 
     @Override
-    public CategoryDto update(Long id, CategoryDto categoryDto) {
+    public CategoryDto update(Long id, CategoryRequestDto categoryDto) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("Can not find Category with id: " + id));
@@ -52,10 +55,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteById(Long id) {
-        Category category = categoryRepository.findById(id)
-                .orElseThrow(() ->
-                        new EntityNotFoundException("Can not find Category with id: " + id));
-        categoryRepository.delete(category);
+        if (!categoryRepository.existsById(id)) {
+            throw new EntityNotFoundException(
+                    "Can not find Category with id: " + id);
+        }
+        categoryRepository.deleteById(id);
     }
 
     @Override
