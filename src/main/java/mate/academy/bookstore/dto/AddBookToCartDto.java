@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Positive;
 
 public record AddBookToCartDto(@NotNull
                                Long bookId,
-                               @NotNull
                                @Positive
-                               Integer quantity) {
+                               int quantity) {
 }
