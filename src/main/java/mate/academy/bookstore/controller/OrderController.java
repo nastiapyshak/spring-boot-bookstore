@@ -73,7 +73,7 @@ public class OrderController {
 
     @Operation(
             summary = "Get order items",
-            description = "Retrieves paginated items from a specific order belonging to the authenticated user"
+            description = "Retrieves paginated items from a specific order"
     )
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{orderId}/items")
@@ -87,7 +87,7 @@ public class OrderController {
 
     @Operation(
             summary = "Get order item by ID",
-            description = "Retrieves a specific item from an order belonging to the authenticated user"
+            description = "Retrieves a specific item from an order belonging"
     )
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{orderId}/items/{itemId}")
