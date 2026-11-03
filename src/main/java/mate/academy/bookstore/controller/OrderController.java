@@ -1,5 +1,7 @@
 package mate.academy.bookstore.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mate.academy.bookstore.dto.OrderItemDto;
@@ -22,12 +24,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(
+        name = "Order Management",
+        description = "Endpoints for managing orders, order history, and order items"
+)
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
 
+    @Operation(
+            summary = "Place a new order",
+            description = "Creates a new order from the authenticated user's shopping cart"
+    )
     @PreAuthorize("hasRole('USER')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -37,6 +47,10 @@ public class OrderController {
         return orderService.placeAnOrder(orderDto, user.getId());
     }
 
+    @Operation(
+            summary = "Get order history",
+            description = "Retrieves paginated order history for the authenticated user"
+    )
     @PreAuthorize("hasRole('USER')")
     @GetMapping
     public Page<OrderResponseDto> getUsersHistory(
@@ -45,6 +59,10 @@ public class OrderController {
         return orderService.getOrdersHistory(pageable, user.getId());
     }
 
+    @Operation(
+            summary = "Update order status",
+            description = "Updates the status of an existing order (ADMIN only)"
+    )
     @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}")
     public void updateOrderStatus(
@@ -53,6 +71,10 @@ public class OrderController {
         orderService.updateOrderStatus(orderDto, id);
     }
 
+    @Operation(
+            summary = "Get order items",
+            description = "Retrieves paginated items from a specific order belonging to the authenticated user"
+    )
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{orderId}/items")
     public Page<OrderItemDto> getOrderItemsForOrder(
@@ -63,6 +85,10 @@ public class OrderController {
                 pageable, orderId, user.getId());
     }
 
+    @Operation(
+            summary = "Get order item by ID",
+            description = "Retrieves a specific item from an order belonging to the authenticated user"
+    )
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{orderId}/items/{itemId}")
     public OrderItemDto getOrderItemByIdAndOrderId(

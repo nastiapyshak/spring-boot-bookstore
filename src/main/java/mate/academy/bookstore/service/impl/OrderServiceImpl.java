@@ -42,7 +42,8 @@ public class OrderServiceImpl implements OrderService {
                         "Can't find Shopping cart for user wit ID: " + userId));
 
         if (shoppingCart.getCartItems().isEmpty()) {
-            throw new IllegalStateException("Shopping cart is empty");
+            throw new IllegalStateException(
+                    "Shopping cart is empty for user with ID: " + userId);
         }
 
         Order order = createOrder(shoppingCart, orderDto);
